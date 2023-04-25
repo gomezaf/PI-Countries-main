@@ -10,7 +10,7 @@ const saveDataInDb = async () => {
         name: el.name.common,
         imageOfTheFlag: el.flags.png,
         region: el.continents[0],
-        subregion: el.subregion == undefined ? el.region : "no data",
+        subregion: el.subregion == undefined ? el.region : "No data",
         capital: el.capital != null ? el.capital[0] : "No data",
         area: el.area,
         population: el.population,
@@ -20,14 +20,99 @@ const saveDataInDb = async () => {
   return infoDbCreate;
 };
 
-const getCountriesByDb = async () => {
-  const getDb = await saveDataInDb();
+const getCountriesByDb = async (name) => {
   const findDb = await Country.findAll();
-  const res = findDb.map((el)=> el.toJSON())
-  console.log(res); // quede revisando la respuesta, ya logro que sea json, ahora que la saque la ruta
-  return res
+  const data = findDb.map((el) => el.toJSON());
+  if (name) {
+    const searchByName = name.charAt(0).toUpperCase() + name.slice(1);
+    const findName = await Country.findAll({
+      where: {
+        name: searchByName,
+      },
+      include: Activity,
+    });
+    return findName;
+  } else {
+    return data;
+  }
 };
 
+const middleGet = async (name) => {
+  const saveInDataBase = await saveDataInDb()
+  const infoByDb = await getCountriesByDb(name)
+  const res = Country? infoByDb : saveInDataBase;
+  return res
+}
+
+const getCountriesById = async (id) => {
+  const searchById = id.toUpperCase();
+  const findId = await Country.findAll({
+    where: {
+      id: searchById,
+    },
+    include: Activity,
+  });
+  const res = findId.map((el) => el.toJSON());
+  return res;
+};
+
+const postActivity = async ( name, dificulty, duration, season, country) => {
+  const createActivity = await Activity.create({
+    name,
+    dificulty,
+    duration,
+    season
+  });
+
+  const assingCountry = await Country.findAll({
+    where: { name: country },
+  })
+
+  createActivity.addCountry(assingCountry)
+  const result = await Activity.findOne({
+    where: { name: name },
+    include: {
+      model: Country,
+      through:{
+        attributes: []
+      }
+    }
+  })
+ 
+  return result
+};
+
+const getActivity = async (name) => {
+  const data = await Activity.findAll({
+    include: {
+      model: Country,
+      through:{
+        attributes: []
+      }
+    }
+  }) ;
+  if (name) {
+    const searchByName = name.toLowerCase();
+    const findName = await Activity.findAll({
+      where: { name: searchByName },
+      include: {
+        model: Country,
+        through:{
+          attributes: []
+        }
+      }
+    })
+    return findName;
+  } else {
+    return data;
+  }
+}
+
 module.exports = {
+  saveDataInDb,
   getCountriesByDb,
+  getCountriesById,
+  postActivity,
+  middleGet,
+  getActivity,
 };
