@@ -1,13 +1,13 @@
 const Router  = require('express')
 const { Country, Activity } = require('../db')
 
-const { saveDataInDb, getCountriesByDb, getCountriesById, middleGet } = require('../controllers/controllers')
+const { saveDataInDb, getCountriesByDb, getCountriesById } = require('../controllers/controllers')
 
 const router = Router()
 
 router.get("/", async (req, res) => {
     const { name } = req.query
-    const allCountries = await middleGet(name)
+    const allCountries = await getCountriesByDb(name)
     try{
         res.status(200).json(allCountries)
     } catch (error){
