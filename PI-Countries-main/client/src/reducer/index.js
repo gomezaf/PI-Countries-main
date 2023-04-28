@@ -19,6 +19,11 @@ function rootReducer(state = initialState, action) {
         activities: action.payload,
       };
 
+    case "POST_ACTIVITIES" :
+      return {
+        ...state,
+      }  
+
     case "GET_COUNTRY_BY_NAME":
       return {
         ...state,
@@ -27,14 +32,12 @@ function rootReducer(state = initialState, action) {
 
     case "GET_COUNTRY_BY_ACTIVITY":
       const allActivities = state.activities;
-    
-      const filtered = allActivities.filter((el) => {
-       
-        return el.name.includes(action.payload);
-      });
+      const filteredActivity = allActivities.filter((el) => el.name === action.payload);
+      const mapActivity = filteredActivity.map((el)=> el.countries)
+      const res = mapActivity.map((el)=> el)
       
-      const statusFiltered = action.payload === "all" ? allActivities : filtered;
-
+      const statusFiltered = action.payload === "all" ? allActivities : res[0];
+   
       return {
         ...state,
         countries: statusFiltered,
@@ -89,15 +92,20 @@ function rootReducer(state = initialState, action) {
               }
               return 0;
             });
+            console.log(sortedArrName)
       return {
         ...state,
         countries: sortedArrName,
       };
 
     case "GET_COUNTRY_BY_REGION":
+      const someCountries = state.allCountries
+
+      const filterCountry = someCountries.filter((el)=> el.region == action.payload)
+     
       return {
         ...state,
-        countries: action.payload,
+        countries: filterCountry,
       };
 
     default:

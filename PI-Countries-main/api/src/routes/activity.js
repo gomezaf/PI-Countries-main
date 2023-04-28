@@ -6,9 +6,9 @@ const { postActivity, getActivity } = require('../controllers/controllers')
 const router = Router()
 
 router.post('/', async (req, res) => {
-    const {name, dificulty, duration, season, country} = req.body
+    const {name, dificulty, duration, season, country, city} = req.body
     try {
-        const post = await postActivity(name, dificulty, duration, season, country)
+        const post = await postActivity(name, dificulty, duration, season, country, city)
         res.status(200).json(post)
     }catch (error){
         res.status(404).json(error.message)
