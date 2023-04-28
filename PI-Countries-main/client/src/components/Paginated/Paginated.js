@@ -14,7 +14,7 @@ export default function Paginated({ allCountries, countriesPerPage, paginado }) 
     <StyledPaginatedContainer>
         {pageNumber &&
           pageNumber.map((p) => {
-            return <StyledNumberPage onClick={() => paginado(p)}>{p}</StyledNumberPage>;
+            return <StyledNumberPage key={p} onClick={() => paginado(p)}>{p}</StyledNumberPage>;
           })}
     </StyledPaginatedContainer>
   );

@@ -21,7 +21,7 @@ export default function FilterByActivity (){
 
   return (
     <div>
-      <label for="activity-country">Countries by activities</label>
+      <label htmlFor="activity-country">Countries by activities</label>
       <select id="activity-country" onChange={e => handlerFilterByActivity(e)}>
       <option>All activities</option>
         {

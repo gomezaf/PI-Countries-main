@@ -31,7 +31,7 @@ export default function Cards() {
     <div>
       {currentCountries?.map((el) => {
         return (
-          <div>
+          <div key={el.name}>
             <Link to={"/home/" + el.id}>
               <Card
                 image={el.imageOfTheFlag}

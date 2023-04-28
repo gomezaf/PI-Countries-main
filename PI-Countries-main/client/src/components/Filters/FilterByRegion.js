@@ -25,7 +25,7 @@ export default function FilterByRegion() {
 
   return (
     <div>
-      <label for="Region-country">Countries by region</label>
+      <label htmlFor="Region-country">Countries by region</label>
       <select id="Region-country" onChange={(e) => handlerFilterByRegion(e)}>
         <option>All countries</option>
         {selecRegions(allCountries)}

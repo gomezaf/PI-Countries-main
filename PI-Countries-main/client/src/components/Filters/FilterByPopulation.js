@@ -14,7 +14,7 @@ export default function FilterByPopulation() {
   
   return (
     <div>
-      <label for="population-filter">Countries by population</label>
+      <label htmlFor="population-filter">Countries by population</label>
       <select id="population-filter" onChange={(e) => handlerFilterByPopulation(e)}>
         <option>All countries</option>
         <option value="asc">major to minor</option>

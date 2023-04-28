@@ -10,6 +10,17 @@ export function getCountries () {
     }
 }
 
+export function getCountriesById (payload){
+    
+    return async function (dispatch){
+        const json = await axios.get("http://localhost:3001/country/" + payload)
+        return dispatch({
+            type: "GET_COUNTRIES_BY_ID",
+            payload: json.data
+        })
+    }
+}
+
 export function getcountryByName (payload){
     return async function (dispatch){
         try{
