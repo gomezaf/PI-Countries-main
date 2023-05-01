@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <StyledNavbarContainer>
       <StyledButtonsRigth>
-        <button className="button" onClick={() => dispatch(getCountries())}>recargar</button>
+        <button className="button" onClick={() => dispatch(getCountries())}>Reload</button>
         <Link to={"/createActivity"}>
           <button className="button">create avtivity</button>
         </Link>

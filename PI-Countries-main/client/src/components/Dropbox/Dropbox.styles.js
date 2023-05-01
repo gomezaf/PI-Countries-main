@@ -17,16 +17,40 @@ export const StyledContenDropbox = styled.button`
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #f5f5f5;
-  padding: 8px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 3px -4px 28px 15px rgba(0, 0, 0, 0.26) inset;
+  border: 1px inset rgba(59, 56, 56, 0.06);
   display: none;
-    ${(props) =>
-      props.isOpen === true &&
-      css`
-        display: block;
-      `};
+  ${(props) =>
+    props.isOpen === true &&
+    css`
+      display: block;
+    `};
+
+  select {
+    border-color: #cccccc;
+    padding: 6px;
+    font-size: 15px;
+    text-align: left;
+    border-radius: 10px;
+    border-style: groove;
+    border-width: 1px;
+  }
+
+  option {
+    border-color: #cccccc;
+    padding: 6px;
+    font-size: 15px;
+    text-align: left;
+    border-radius: 10px;
+    border-style: groove;
+    border-width: 1px;
+  }
 `;
 
 export const StyledSelectFilter = styled.div`
@@ -59,6 +83,5 @@ export const StyledCheckbox = styled.input`
   }
 
   &:checked::before {
-    
   }
 `;

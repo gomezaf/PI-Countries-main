@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { postActivity } from "../../actions/index";
 
+import { StyledFormContainer, StyledCreateActPage } from "./CreateActivity.styles";
+
 export default function CreateActivity() {
   const dispatch = useDispatch();
   const history = useHistory();
   const allCountries = useSelector((state) => state.allCountries);
-const activities = useSelector((state)=> state.activities)
+  const activities = useSelector((state) => state.activities);
 
   const seasons = ["Winter", "Spring", "Autumn", "Summer"];
   const difficulty = [1, 2, 3, 4, 5];
@@ -16,7 +18,7 @@ const activities = useSelector((state)=> state.activities)
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24,
   ];
-  const allActivities = activities.map((el)=> el.name)
+  const allActivities = activities.map((el) => el.name);
 
   const [input, setInput] = useState({
     name: "",
@@ -48,19 +50,19 @@ const activities = useSelector((state)=> state.activities)
   }
 
   function handleChange(e) {
-    let value = e.target.value
-    let activities = allActivities.includes(value)
-    if (activities){
+    let value = e.target.value;
+    let activities = allActivities.includes(value);
+    if (activities) {
       setErrors({
-        name: "This activity already exists"
-      })
+        name: "This activity already exists",
+      });
     } else {
-    setInput({
-      ...input,
-      [e.target.name]: value,
-    });
-    validate(input)
-  }
+      setInput({
+        ...input,
+        [e.target.name]: value,
+      });
+      validate(input);
+    }
   }
 
   function handleSelectCountry(e) {
@@ -68,7 +70,7 @@ const activities = useSelector((state)=> state.activities)
       ...input,
       country: [...input.country, e.target.value],
     });
-    validate(input)
+    validate(input);
   }
 
   function handleSelect(e) {
@@ -76,7 +78,7 @@ const activities = useSelector((state)=> state.activities)
       ...input,
       [e.target.name]: e.target.value,
     });
-    validate(input)
+    validate(input);
   }
 
   let search;
@@ -109,7 +111,7 @@ const activities = useSelector((state)=> state.activities)
       alert("Complete the form");
     } else {
       dispatch(postActivity(input));
-      alert("que chimba ome");
+      alert("Activity successfully created");
       setInput({
         name: "",
         dificulty: "",
@@ -123,14 +125,15 @@ const activities = useSelector((state)=> state.activities)
   }
 
   return (
-    <div>
+    <StyledCreateActPage>
       <Link to="/home">
-        <button>volver</button>
+      <button className="goHome" />
       </Link>
-      <h1>Crea tu activity</h1>
+      <StyledFormContainer>
+      <h1>Create your activity </h1>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
-          <label>Name</label>
+          <label>Name </label>
           <input
             type="text"
             value={input.name}
@@ -138,39 +141,51 @@ const activities = useSelector((state)=> state.activities)
             onChange={(e) => handleChange(e)}
           />
           <select name="name" onChange={handleSelect}>
-          <option >Select activity</option>
-            {allActivities.map((el) => <option value={el}>{el}</option>)}
+            <option>Select activity </option>
+            {allActivities.map((el) => (
+              <option value={el}>{el}</option>
+            ))}
           </select>
           {errors.name && <p>{errors.name}</p>}
         </div>
         <div>
-          <label>Dificulty</label>
+        
+          <label>Dificulty </label>
           <select name="dificulty" onChange={handleSelect}>
-          <option >Select a difficulty</option>
-            {difficulty.map((el) => <option value={el}>{el}</option>)}
+            <option>Select a difficulty</option>
+            {difficulty.map((el) => (
+              <option value={el}>{el}</option>
+            ))}
           </select>
           {errors.dificulty && <p>{errors.dificulty}</p>}
         </div>
         <div>
-          <label>Duration</label>
+      
+          <label>Duration </label>
           <select name="duration" onChange={handleSelect}>
-          <option >Select a duration</option>
-            {durationTime.map((el) => <option value={el}>{el} hours</option>)}
+            <option>Select a duration</option>
+            {durationTime.map((el) => (
+              <option value={el}>{el} hours</option>
+            ))}
           </select>
           {errors.duration && <p>{errors.duration}</p>}
         </div>
         <div>
-          <label>Season</label>
+       
+          <label>Season </label>
           <select name="season" onChange={handleSelect}>
-          <option >Select a season</option>
-            {seasons.map((el) => <option value={el}>{el}</option>)}
+            <option>Select a season</option>
+            {seasons.map((el) => (
+              <option value={el}>{el}</option>
+            ))}
           </select>
           {errors.season && <p>{errors.season}</p>}
         </div>
         <div>
-          <label>Country</label>
+       
+          <label>Country </label>
           <select onChange={handleSelectCountry}>
-          <option >Select a country</option>
+            <option>Select a country</option>
             <input
               type="text"
               name="country"
@@ -186,8 +201,10 @@ const activities = useSelector((state)=> state.activities)
             </div>
           ))}
         </div>
-        <button type="submit">crear</button>
+        <p />
+        <button type="submit" className="buttonCreate">create</button>
       </form>
-    </div>
+      </StyledFormContainer>
+    </StyledCreateActPage>
   );
 }

@@ -19,7 +19,6 @@ export default function Dropbox() {
       </StyledButtonDropbox>
       <StyledContenDropbox isOpen={isOpen}>
         <Filters />
-       <h3>hola</h3>
       </StyledContenDropbox>
     </StyledDropboxContainer>
   );

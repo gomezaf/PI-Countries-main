@@ -5,7 +5,13 @@ import { useParams } from "react-router-dom";
 
 import { getCountriesById } from "../../actions";
 
-import { StyledDetailPage, StyledDetailCard } from "./Detail.styles";
+import {
+  StyledDetailPage,
+  StyledDetailCard,
+  StyledActivityContainer,
+  StyledFlagContainer,
+  StyledPropsContainer,
+} from "./Detail.styles";
 
 export default function Detail() {
   const dispatch = useDispatch();
@@ -29,25 +35,28 @@ export default function Detail() {
 
   return (
     <StyledDetailPage>
+      <Link to="/home">
+        <button className="goHome" />
+      </Link>
       <StyledDetailCard>
-        <div className="imgDiv">
+        <StyledFlagContainer>
           <img src={imageOfTheFlag} />
-        </div>
-        <div className="propsDiv">
+        </StyledFlagContainer>
+        <StyledPropsContainer>
           <h1>
-            {name}/{id}
+            {name} / {id}
           </h1>
-          <h3>Capital:{capital}</h3>
-          <h2>Region: {region}</h2>
+          <h3>Capital: {capital}</h3>
+          <h3>Region: {region}</h3>
           <h3>Area: {area}</h3>
           <h3>Population: {population}</h3>
-          <li>
-            Activities:
-            {activities?.map((el) => (
-              <ul key={el.id}>{el.name}</ul>
-            ))}
-          </li>
-        </div>
+        </StyledPropsContainer>
+        <StyledActivityContainer>
+          <h2>Activities:</h2>
+          {activities?.map((el) => (
+            <p key={el.id}>{el.name}</p>
+          ))}
+        </StyledActivityContainer>
       </StyledDetailCard>
     </StyledDetailPage>
   );

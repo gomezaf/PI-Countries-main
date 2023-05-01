@@ -16,7 +16,7 @@ export default function FilterByOrderAlpha() {
     <div>
       <label htmlFor="filter-alphabetic">filter by alphabetical order </label>
       <select id="filter-alphabetic" onChange={(e) => handlerFilterByName(e)}>
-        <option>All pokemons</option>
+        <option>All countries</option>
         <option value="asc">major to minor</option>
         <option>minor to major</option>
       </select>
