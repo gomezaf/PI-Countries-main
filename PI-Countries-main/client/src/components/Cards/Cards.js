@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Card from "../Card/index";
 import Paginated from "../Paginated/index";
 
+import { StyledCardsContainer, StyledCardBox } from "./Cards.styles";
+
 export default function Cards() {
   const dispatch = useDispatch()
   const allCountries = useSelector((state) => state.countries);
@@ -28,7 +30,8 @@ export default function Cards() {
   };
 
   return (
-    <div>
+    <StyledCardsContainer>
+      <StyledCardBox>
       {currentCountries?.map((el) => {
         return (
           <div key={el.name}>
@@ -42,11 +45,12 @@ export default function Cards() {
           </div>
         );
       })}
+      </StyledCardBox>
       <Paginated
         countriesPerPage={countriesPerPage}
         paginado={paginado}
         allCountries={allCountries.length}
       />
-    </div>
+    </StyledCardsContainer>
   );
 }

@@ -8,6 +8,7 @@ export default function CreateActivity() {
   const dispatch = useDispatch();
   const history = useHistory();
   const allCountries = useSelector((state) => state.allCountries);
+const activities = useSelector((state)=> state.activities)
 
   const seasons = ["Winter", "Spring", "Autumn", "Summer"];
   const difficulty = [1, 2, 3, 4, 5];
@@ -15,6 +16,7 @@ export default function CreateActivity() {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24,
   ];
+  const allActivities = activities.map((el)=> el.name)
 
   const [input, setInput] = useState({
     name: "",
@@ -46,11 +48,19 @@ export default function CreateActivity() {
   }
 
   function handleChange(e) {
+    let value = e.target.value
+    let activities = allActivities.includes(value)
+    if (activities){
+      setErrors({
+        name: "This activity already exists"
+      })
+    } else {
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
     validate(input)
+  }
   }
 
   function handleSelectCountry(e) {
@@ -127,6 +137,10 @@ export default function CreateActivity() {
             name="name"
             onChange={(e) => handleChange(e)}
           />
+          <select name="name" onChange={handleSelect}>
+          <option >Select activity</option>
+            {allActivities.map((el) => <option value={el}>{el}</option>)}
+          </select>
           {errors.name && <p>{errors.name}</p>}
         </div>
         <div>

@@ -1,16 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { getCountries } from "../../actions";
 
 import SearchBar from "../SearchBar/index";
 import Dropbox from "../Dropbox/index";
 
-export default function Navbar (){
-    return(
-        <div>
-            <Link to={"/createActivity"}><button>create avtivity</button></Link>
-            <Dropbox />
-            <SearchBar />
-        </div>
-    )
+import { StyledNavbarContainer, StyledButtonsRigth } from "./Navbar.styles";
 
+export default function Navbar() {
+  const dispatch = useDispatch();
+  return (
+    <StyledNavbarContainer>
+      <StyledButtonsRigth>
+        <button className="button" onClick={() => dispatch(getCountries())}>recargar</button>
+        <Link to={"/createActivity"}>
+          <button className="button">create avtivity</button>
+        </Link>
+        <Dropbox />
+      </StyledButtonsRigth>
+      <SearchBar />
+    </StyledNavbarContainer>
+  );
 }
