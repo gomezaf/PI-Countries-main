@@ -15,16 +15,16 @@ import {
 const SearchBar = () => {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(" ");
+  const [name, setName] = useState("");
 
   function handleInputChange(e) {
     setName(e);
-    console.log(name);
   }
 
   function handlerSubmit(e) {
     e.preventDefault();
     dispatch(getcountryByName(name));
+    setName("")
   }
 
   return (

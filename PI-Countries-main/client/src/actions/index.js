@@ -11,9 +11,9 @@ export function getCountries () {
 }
 
 export function getCountriesById (payload){
-    
+    const url = `http://localhost:3001/country/${payload}`
     return async function (dispatch){
-        const json = await axios.get("http://localhost:3001/country/" + payload)
+        const json = await axios.get(url)
         return dispatch({
             type: "GET_COUNTRIES_BY_ID",
             payload: json.data
@@ -22,9 +22,11 @@ export function getCountriesById (payload){
 }
 
 export function getcountryByName (payload){
+    const urlName =`http://localhost:3001/country?name=${payload}`
     return async function (dispatch){
+        console.log(payload)
         try{
-            const json = await axios.get("http://localhost:3001/country?name=" + payload)
+            const json = await axios.get(urlName)
             return dispatch({
                 type: "GET_COUNTRY_BY_NAME",
                 payload: json.data

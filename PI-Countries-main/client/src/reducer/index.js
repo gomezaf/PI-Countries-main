@@ -3,6 +3,7 @@ const initialState = {
   allCountries: [],
   activities: [],
   detail: [],
+  statusFilter: "",
 };
 
 function rootReducer(state = initialState, action) {
@@ -14,8 +15,7 @@ function rootReducer(state = initialState, action) {
         allCountries: action.payload,
       };
 
-      case "GET_COUNTRIES_BY_ID":
-       
+    case "GET_COUNTRIES_BY_ID":
       return {
         ...state,
         detail: action.payload,
@@ -27,12 +27,13 @@ function rootReducer(state = initialState, action) {
         activities: action.payload,
       };
 
-    case "POST_ACTIVITIES" :
+    case "POST_ACTIVITIES":
       return {
         ...state,
-      }  
+      };
 
     case "GET_COUNTRY_BY_NAME":
+      console.log(action.payload)
       return {
         ...state,
         countries: action.payload,
@@ -40,49 +41,51 @@ function rootReducer(state = initialState, action) {
 
     case "GET_COUNTRY_BY_ACTIVITY":
       const allActivities = state.activities;
-      const filteredActivity = allActivities.filter((el) => el.name === action.payload);
-      const mapActivity = filteredActivity.map((el)=> el.countries)
-      const res = mapActivity.map((el)=> el)
-      
+      const filteredActivity = allActivities.filter(
+        (el) => el.name === action.payload
+      );
+      const mapActivity = filteredActivity.map((el) => el.countries);
+      const res = mapActivity.map((el) => el);
+
       const statusFiltered = action.payload === "all" ? allActivities : res[0];
-   
+
       return {
         ...state,
         countries: statusFiltered,
       };
 
     case "GET_COUNTRY_BY_POPULATION":
-      const world = state.allCountries;
       let sortedArr =
         action.payload === "asc"
-          ? world.sort(function (a, b) {
+          ? state.allCountries.sort(function (a, b) {
               if (a.population > b.population) {
                 return 1;
               }
-              if (b.population > a.population) {
+              if (a.population < b.population) {
                 return -1;
               }
               return 0;
             })
-          : world.sort(function (a, b) {
+          : state.allCountries.sort(function (a, b) {
+              if (a.population < b.population) {
+                return 1;
+              }
               if (a.population > b.population) {
                 return -1;
               }
-              if (b.population > a.population) {
-                return 1;
-              }
               return 0;
             });
+            const statusFilterPopulation = action.payload
       return {
         ...state,
         countries: sortedArr,
+        statusFilter: statusFilterPopulation,
       };
 
     case "GET_COUNTRY_BY_ORDER_ALPHA":
-      const todasLosPaises = state.allCountries;
       let sortedArrName =
         action.payload === "asc"
-          ? todasLosPaises.sort(function (a, b) {
+          ? state.countries.sort(function (a, b) {
               if (a.name > b.name) {
                 return 1;
               }
@@ -91,7 +94,7 @@ function rootReducer(state = initialState, action) {
               }
               return 0;
             })
-          : todasLosPaises.sort(function (a, b) {
+          : state.countries.sort(function (a, b) {
               if (a.name > b.name) {
                 return -1;
               }
@@ -100,20 +103,27 @@ function rootReducer(state = initialState, action) {
               }
               return 0;
             });
-            console.log(sortedArrName)
+      console.log(sortedArrName);
+      const statusFilterOrderAlPha = action.payload
       return {
         ...state,
         countries: sortedArrName,
+        statusFilter: statusFilterOrderAlPha,
       };
 
     case "GET_COUNTRY_BY_REGION":
-      const someCountries = state.allCountries
+      const someCountries = state.allCountries;
+      const statusFilterByRegion = action.payload
+      const filterCountry = someCountries.filter(
+        (el) => el.region === action.payload
+      );
 
-      const filterCountry = someCountries.filter((el)=> el.region == action.payload)
-     
+      const reply = action.payload === "All countries"? someCountries: filterCountry
+
       return {
         ...state,
-        countries: filterCountry,
+        countries: reply,
+        statusFilter: statusFilterByRegion,
       };
 
     default:

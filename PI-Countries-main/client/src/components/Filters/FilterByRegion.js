@@ -9,6 +9,7 @@ export default function FilterByRegion() {
 
   const handlerFilterByRegion = (e) => {
     dispatch(getCountryByRegion(e.target.value));
+    console.log(e.target.value)
   };
 
   const selecRegions = (allCountries) => {
