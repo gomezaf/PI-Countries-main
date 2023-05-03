@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getCountryByOrderAlpha, getCountries} from "../../actions";
+import { getCountryByOrderAlpha } from "../../actions";
 
 
 export default function FilterByOrderAlpha() {
-  const allCountries = useSelector((state)=> state.countries)
+ 
     const dispatch = useDispatch()
-
-    console.log(allCountries)
 
     const handlerFilterByName = (e) => {
         e.preventDefault();

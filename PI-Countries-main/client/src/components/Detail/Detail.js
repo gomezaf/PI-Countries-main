@@ -20,7 +20,7 @@ export default function Detail() {
 
   useEffect(() => {
     dispatch(getCountriesById(params.id));
-  }, [dispatch]);
+  },[dispatch]);
 
   const {
     imageOfTheFlag,
@@ -40,7 +40,7 @@ export default function Detail() {
       </Link>
       <StyledDetailCard>
         <StyledFlagContainer>
-          <img src={imageOfTheFlag} />
+          <img src={imageOfTheFlag} alt='flag from country' />
         </StyledFlagContainer>
         <StyledPropsContainer>
           <h1>

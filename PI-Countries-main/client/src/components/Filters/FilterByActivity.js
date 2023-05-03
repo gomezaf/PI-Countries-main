@@ -33,7 +33,7 @@ export default function FilterByActivity() {
     });
 
     const noActivities = (
-      <option value={"/createActivity"} key="CreateActivity">
+      <option value="/createActivity" key="Create_Activity">
         Create a new activity
       </option>
     );
@@ -48,7 +48,7 @@ export default function FilterByActivity() {
         id="activity-country"
         onChange={(e) => handlerFilterByActivity(e)}
       >
-        <option value="" disabled selected>
+        <option disabled selected>
           Select or create an activity
         </option>
         {optionSelect(allActivities)}

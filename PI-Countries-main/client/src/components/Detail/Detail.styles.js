@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import handTravel from "../../icons/handTravel.png";
 import places from "../../icons/places.png";
 import home from "../../icons/home.png";
 
