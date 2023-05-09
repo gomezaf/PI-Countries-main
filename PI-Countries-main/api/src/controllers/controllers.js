@@ -63,14 +63,12 @@ const postActivity = async (
   duration,
   season,
   country,
-  city
 ) => {
   const createActivity = await Activity.create({
     name,
     dificulty,
     duration,
     season,
-    city,
   });
 
   const assingCountry = await Country.findAll({
@@ -78,14 +76,6 @@ const postActivity = async (
   });
 
   createActivity.addCountry(assingCountry);
-
-  // const assingActivity = await Activity.findAll({
-  //   where:{
-  //     name: name
-  //   }
-  // })
-
-  // assingCountry.addActivity(assingActivity)
 
   const result = await Activity.findOne({
     where: { name: name },

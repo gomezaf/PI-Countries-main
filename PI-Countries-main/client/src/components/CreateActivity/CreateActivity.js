@@ -9,6 +9,24 @@ import {
   StyledCreateActPage,
 } from "./CreateActivity.styles";
 
+function validate(input) {
+  let errors = {};
+  if (!input.name) {
+    errors.name = "Insert the new activity name";
+  } else if (!input.dificulty) {
+    errors.dificulty = "Check the activity difficulty level";
+  } else if (!input.duration) {
+    errors.duration = "Select the duration of the activity";
+  } else if (!input.season) {
+    errors.season = "Select the season";
+  } else if (!input.country.length) {
+    errors.country = "Select the country";
+  } else {
+    errors = false
+  }
+  return errors;
+}
+
 export default function CreateActivity() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -31,42 +49,46 @@ export default function CreateActivity() {
     duration: "",
     season: "",
     country: [],
-    city: "no se",
   });
 
   const [errors, setErrors] = useState({});
 
-  function validate(input) {
-    let errors = {};
-    setErrors(errors);
-    if (!input.name) {
-      errors.name = "Insert the new activity name";
-    } else if (!input.dificulty) {
-      errors.dificulty = "Check the activity difficulty level";
-    } else if (!input.duration) {
-      errors.duration = "Select the duration of the activity";
-    } else if (!input.season) {
-      errors.season = "Select the season";
-    } else if (!input.country) {
-      errors.country = "Select the country";
-    } else {
-      setErrors(false);
-    }
-  }
-
   function handleChange(e) {
     let value = e.target.value;
-    let activities = allActivities.name.includes(value);
+    let activities = allActivities.find((el) => el.name.includes(value));
+
+    console.log(activities)
+
     if (activities) {
-      setErrors({
-        name: "This activity already exists",
-      });
-    } else {
       setInput({
         ...input,
         [e.target.name]: value,
       });
-      validate(input);
+      setErrors({
+        name: "This activity already exists",
+      });
+      console.log(input);
+    } else {
+      if (value.length < 3){
+        setInput({
+          ...input,
+          [e.target.name]: value,
+        });
+        setErrors({
+          name: "Type a minimum of 3 characters",
+        });
+      } else {
+      setInput({
+        ...input,
+        [e.target.name]: value,
+      });
+      setErrors(
+        validate({
+          ...input,
+          [e.target.name]: e.target.value,
+        })
+      );
+      }
     }
   }
 
@@ -75,7 +97,12 @@ export default function CreateActivity() {
       ...input,
       country: [...input.country, e.target.value],
     });
-    validate(input);
+    setErrors(
+      validate({
+        ...input,
+        country: e.target.value,
+      })
+    );
   }
 
   function handleSelect(e) {
@@ -83,7 +110,12 @@ export default function CreateActivity() {
       ...input,
       [e.target.name]: e.target.value,
     });
-    validate(input);
+    setErrors(
+      validate({
+        ...input,
+        [e.target.name]: e.target.value,
+      })
+    );
   }
 
   let search;
@@ -104,10 +136,6 @@ export default function CreateActivity() {
     });
   }
 
-  function handleChangeInputCountry(e) {
-    search = e.target.value;
-  }
-
   function handleDeleteCountry(el) {
     setInput({
       ...input,
@@ -117,9 +145,12 @@ export default function CreateActivity() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    validate(input);
+  
     if (errors) {
-      alert("Complete the form");
+      setErrors({
+        ...errors,
+        completeForm: "Complete the form",
+      });
     } else {
       dispatch(postActivity(input));
       alert("Activity successfully created");
@@ -129,7 +160,6 @@ export default function CreateActivity() {
         duration: "",
         season: "",
         country: [],
-        city: "no se",
       });
       history.push("/home");
     }
@@ -167,7 +197,9 @@ export default function CreateActivity() {
             <select name="dificulty" onChange={handleSelect}>
               <option>Select a difficulty</option>
               {difficulty.map((el) => (
-                <option value={el} key={el}>{el}</option>
+                <option value={el} key={el}>
+                  {el}
+                </option>
               ))}
             </select>
             {errors.dificulty && <p>{errors.dificulty}</p>}
@@ -177,7 +209,9 @@ export default function CreateActivity() {
             <select name="duration" onChange={handleSelect}>
               <option>Select a duration</option>
               {durationTime.map((el) => (
-                <option value={el} key={el}>{el} hours</option>
+                <option value={el} key={el}>
+                  {el} hours
+                </option>
               ))}
             </select>
             {errors.duration && <p>{errors.duration}</p>}
@@ -187,7 +221,9 @@ export default function CreateActivity() {
             <select name="season" onChange={handleSelect}>
               <option>Select a season</option>
               {seasons.map((el) => (
-                <option value={el} key={el}>{el}</option>
+                <option value={el} key={el}>
+                  {el}
+                </option>
               ))}
             </select>
             {errors.season && <p>{errors.season}</p>}
@@ -210,6 +246,7 @@ export default function CreateActivity() {
           <button type="submit" className="buttonCreate">
             create
           </button>
+          {errors.completeForm && <p>{errors.completeForm}</p>}
         </form>
       </StyledFormContainer>
     </StyledCreateActPage>
